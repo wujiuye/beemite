@@ -2,29 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="d419e9e3-14e5-4817-b8c2-1040e949f96e" name="Default Changelist" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/BusinessClassInsertPileMain.java" beforeDir="false" afterPath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/BusinessClassInsertPileMain.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/BusinessClassInstrumentation.java" beforeDir="false" afterPath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/BusinessClassInstrumentation.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/asmip/AopClassAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/asmip/AopClassAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/asmip/AopManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/asmip/AopManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/asmip/FuncRuntimeMethodAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/asmip/FuncRuntimeMethodAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/asmip/TryCatchMethodAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/asmip/TryCatchMethodAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/business/BusinessCallLinkTransformerFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/business/BusinessCallLinkTransformerFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/business/FilterChina.java" beforeDir="false" afterPath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/business/FilterChina.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/business/FuncRunTimeTransformerFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/business/FuncRunTimeTransformerFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/business/TransformerFilter.java" beforeDir="false" afterPath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/business/TransformerFilter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/ipevent/Event.java" beforeDir="false" afterPath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/ipevent/Event.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/ipevent/EventParam.java" beforeDir="false" afterPath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/ipevent/EventParam.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/ipevent/InsertPileManager.java" beforeDir="false" afterPath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/ipevent/InsertPileManager.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/ipevent/event/BusinessCallLinkEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/ipevent/event/BusinessCallLinkEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/ipevent/event/FuncRuntimeEvent.java" beforeDir="false" afterPath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/ipevent/event/FuncRuntimeEvent.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/logimpl/DefaultBusinessCallLinkLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/logimpl/DefaultBusinessCallLinkLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/logimpl/DefaultFuncRuntimeLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/logimpl/DefaultFuncRuntimeLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/logs/IBusinessCallLinkLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/logs/IBusinessCallLinkLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/logs/IFuncRuntimeLog.java" beforeDir="false" afterPath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/logs/IFuncRuntimeLog.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/test/TestAop.java" beforeDir="false" afterPath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/test/TestAop.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/test/UserServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/test/UserServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/utils/StringUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/utils/StringUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
     </list>
     <ignored path="$PROJECT_DIR$/out/" />
     <ignored path="$PROJECT_DIR$/target/" />
@@ -62,9 +40,11 @@
         <counts>
           <entry key="IBusinessCallLinkLog" value="1" />
           <entry key="IFuncRuntimeLog" value="1" />
+          <entry key="LICENSE" value="1" />
           <entry key="TransformerFilter" value="1" />
           <entry key="class" value="4" />
           <entry key="java" value="115" />
+          <entry key="md" value="1" />
           <entry key="xml" value="6" />
           <entry key="yml" value="1" />
         </counts>
@@ -73,6 +53,8 @@
         <counts>
           <entry key="CLASS" value="4" />
           <entry key="JAVA" value="115" />
+          <entry key="Markdown" value="1" />
+          <entry key="PLAIN_TEXT" value="1" />
           <entry key="UML" value="3" />
           <entry key="XML" value="6" />
           <entry key="YAML" value="1" />
@@ -83,118 +65,20 @@
   <component name="FileEditorManager">
     <leaf>
       <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/ipevent/event/FuncRuntimeEvent.java">
+        <entry file="file://$PROJECT_DIR$/LICENSE">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="234">
-              <caret line="18" column="40" selection-start-line="18" selection-start-column="40" selection-end-line="18" selection-end-column="40" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/ipevent/event/BusinessCallLinkEvent.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="270">
-              <caret line="18" column="40" selection-start-line="18" selection-start-column="40" selection-end-line="18" selection-end-column="40" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/business/TransformerFilter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="210">
-              <caret line="14" column="40" selection-start-line="14" selection-start-column="40" selection-end-line="14" selection-end-column="40" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/business/FuncRunTimeTransformerFilter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="16" column="40" selection-start-line="16" selection-start-column="40" selection-end-line="16" selection-end-column="40" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/business/FilterChina.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="16" column="40" selection-start-line="16" selection-start-column="40" selection-end-line="16" selection-end-column="40" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/business/BusinessCallLinkTransformerFilter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="240">
-              <caret line="16" column="40" selection-start-line="16" selection-start-column="40" selection-end-line="16" selection-end-column="40" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/asmip/TryCatchMethodAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="435">
-              <caret line="29" column="2" selection-start-line="29" selection-start-column="2" selection-end-line="29" selection-end-column="2" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/asmip/FuncRuntimeMethodAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="245">
-              <caret line="31" column="13" selection-start-line="31" selection-start-column="13" selection-end-line="31" selection-end-column="13" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/asmip/AopManager.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="330">
-              <caret line="22" column="40" selection-start-line="22" selection-start-column="40" selection-end-line="22" selection-end-column="40" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
+            <state relative-caret-position="-2348" />
           </provider>
         </entry>
       </file>
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/asmip/AopClassAdapter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="465">
-              <caret line="31" column="26" lean-forward="true" selection-start-line="31" selection-start-column="26" selection-end-line="31" selection-end-column="26" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
+        <entry file="file://$PROJECT_DIR$/README.md">
+          <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+            <state split_layout="SPLIT">
+              <first_editor relative-caret-position="30">
+                <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+              </first_editor>
+              <second_editor />
             </state>
           </provider>
         </entry>
@@ -251,6 +135,7 @@
         <option value="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/business/BusinessCallLinkTransformerFilter.java" />
         <option value="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/asmip/AopManager.java" />
         <option value="$PROJECT_DIR$/bee-mite/src/main/java/com/wujiuye/beemite/asmip/AopClassAdapter.java" />
+        <option value="$PROJECT_DIR$/README.md" />
       </list>
     </option>
   </component>
@@ -518,7 +403,7 @@
     <property name="RequestMappingsPanelWidth1" value="75" />
     <property name="WebServerToolWindowFactoryState" value="false" />
     <property name="aspect.path.notification.shown" value="true" />
-    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544625973680" />
+    <property name="com.android.tools.idea.instantapp.provision.ProvisionBeforeRunTaskProvider.myTimeStamp" value="1544626392290" />
     <property name="nodejs_interpreter_path.stuck_in_default_project" value="undefined stuck path" />
     <property name="nodejs_npm_path_reset_for_default_project" value="true" />
     <property name="project.structure.last.edited" value="Modules" />
@@ -596,12 +481,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1544607535457</updated>
-      <workItem from="1544607540581" duration="7455000" />
+      <workItem from="1544607540581" duration="7863000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="7455000" />
+    <option name="totallyTimeSpent" value="7863000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="53" y="23" width="1387" height="877" extended-state="6" />
@@ -1014,6 +899,21 @@
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/LICENSE">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-2348" />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/README.md">
+      <provider selected="true" editor-type-id="split-provider[text-editor;markdown-preview-editor]">
+        <state split_layout="SPLIT">
+          <first_editor relative-caret-position="30">
+            <caret line="2" lean-forward="true" selection-start-line="2" selection-end-line="2" />
+          </first_editor>
+          <second_editor />
         </state>
       </provider>
     </entry>
