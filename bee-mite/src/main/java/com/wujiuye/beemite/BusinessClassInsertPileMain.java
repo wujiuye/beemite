@@ -7,24 +7,41 @@ import com.wujiuye.beemite.logimpl.DefaultFuncRuntimeLog;
 import java.lang.instrument.Instrumentation;
 
 /**
- * javaagent入口类
- * 像java程序执行入口一样需要定义public static void main方法
- * javaagent也要有入口方法，定义一个public static void premain方法
+ * >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ * <p>
+ * 微信公众号id：code_skill
+ * QQ邮箱：419611821@qq.com
+ * 微信号：www_wujiuye_com
+ * <p>
+ * ======================^^^^^^^==============^^^^^^^============
  *
- * 使用：
- *  先执行maven package进行打包，获取jar包的绝对路径
- *  不建议在当前项目测试
- *  在测试的web项目下点击锤子->Edit Config....-> VM options ->输入下面内容
- *      -javaagent:/MyProjects/asm-aop/insert-pile/target/insert-pile-1.0-SNAPSHOT.jar=com.wujiuye
- *  等号后面是参数
- *  如果报如下异常：
- *      java.lang.VerifyError: Expecting a stackmap frame at branch target 18
- *      jdk1.8可以添加参数：-noverify
- *      最终：
- *      -noverify -javaagent:/MyProjects/asm-aop/insert-pile/target/insert-pile-1.0-SNAPSHOT.jar=com.wujiuye
- *
- *  spring项目中也能用，虽然spring会使用它生成的代理对象，但是最终也会调用原本的对象的方法
- * @author wjy
+ * @ 作者       |   吴就业 www.wujiuye.com
+ * ======================^^^^^^^==============^^^^^^^============
+ * @ 创建日期      |   Created in 2018年12月10日
+ * ======================^^^^^^^==============^^^^^^^============
+ * @ 所属项目   |   BeeMite
+ * ======================^^^^^^^==============^^^^^^^============
+ * @ 类功能描述    | 
+ *     javaagent入口类
+ *     像java程序执行入口一样需要定义public static void main方法
+ *     javaagent也要有入口方法，定义一个public static void premain方法
+ *    
+ *     使用：
+ *      先执行maven package进行打包，获取jar包的绝对路径
+ *      不建议在当前项目测试
+ *      在测试的web项目下点击锤子->Edit Config....-> VM options ->输入下面内容
+ *          -javaagent:/MyProjects/asm-aop/insert-pile/target/insert-pile-1.0-SNAPSHOT.jar=com.wujiuye
+ *      等号后面是参数
+ *      如果报如下异常：
+ *          java.lang.VerifyError: Expecting a stackmap frame at branch target 18
+ *          jdk1.8可以添加参数：-noverify
+ *          最终：
+ *          -noverify -javaagent:/MyProjects/asm-aop/insert-pile/target/insert-pile-1.0-SNAPSHOT.jar=com.wujiuye
+ *    
+ *      spring项目中也能用，虽然spring会使用它生成的代理对象，但是最终也会调用原本的对象的方法
+ * ======================^^^^^^^==============^^^^^^^============
+ * @ 版本      |   ${1.0-SNAPSHOT}
+ * ======================^^^^^^^==============^^^^^^^============
  */
 public class BusinessClassInsertPileMain {
 

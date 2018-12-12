@@ -7,12 +7,30 @@ import org.objectweb.asm.*;
 import java.util.List;
 
 /**
+ * >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ * <p>
+ * 微信公众号id：code_skill
+ * QQ邮箱：419611821@qq.com
+ * 微信号：www_wujiuye_com
+ * <p>
+ * ======================^^^^^^^==============^^^^^^^============
+ *
+ * @ 作者       |   吴就业 www.wujiuye.com
+ * ======================^^^^^^^==============^^^^^^^============
+ * @ 创建日期      |   Created in 2018年12月11日
+ * ======================^^^^^^^==============^^^^^^^============
+ * @ 所属项目   |   BeeMite
+ * ======================^^^^^^^==============^^^^^^^============
+ * @ 类功能描述    |
  * 给方法添加try-catch块，包裹方法内的所有代码
  *
- * Exception table:
- *        from    to  target type
- *            0    27    30   Class java/lang/Exception
- * @author wjy
+ *   Exception table:
+ *          from    to  target type
+ *             0    27    30   Class java/lang/Exception
+ *
+ * ======================^^^^^^^==============^^^^^^^============
+ * @ 版本      |   ${1.0-SNAPSHOT}
+ * ======================^^^^^^^==============^^^^^^^============
  */
 public class TryCatchMethodAdapter extends MethodAdapter implements Opcodes {
 

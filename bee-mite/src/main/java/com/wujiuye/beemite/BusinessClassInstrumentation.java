@@ -9,23 +9,39 @@ import java.lang.instrument.IllegalClassFormatException;
 import java.security.ProtectionDomain;
 
 /**
- * 完成对业务代码的插桩
- * 具体的实现使用责任模式实现
+ * >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+ * <p>
+ * 微信公众号id：code_skill
+ * QQ邮箱：419611821@qq.com
+ * 微信号：www_wujiuye_com
+ * <p>
+ * ======================^^^^^^^==============^^^^^^^============
  *
- * 当存在多个转换器时,转换将由 transform 调用链组成。也就是说,
- * 一个 transform 调用返回的 byte 数组将成为下一个调用的输入(通过 classfileBuffer 参数)。
- * 参数:
- *      loader - 定义要转换的类加载器;如果是引导加载器,则为 null
- *      className - 完全限定类内部形式的类名称和 The Java Virtual Machine Specification 中定义的接口名称。例如,"java/util/List"。
- *      classBeingRedefined - 如果是被重定义或重转换触发,则为重定义或重转换的类;如果是类加载,则为 null
- *      protectionDomain - 要定义或重定义的类的保护域
- *      classfileBuffer - class文件输入字节缓冲区
- * 返回:
- *      一个格式良好的类文件缓冲区(转换的结果),如果未执行转换,则返回 null。
- * 抛出:
- *      IllegalClassFormatException
+ * @ 作者       |   吴就业 www.wujiuye.com
+ * ======================^^^^^^^==============^^^^^^^============
+ * @ 创建日期      |   Created in 2018年12月10日
+ * ======================^^^^^^^==============^^^^^^^============
+ * @ 所属项目   |   BeeMite
+ * ======================^^^^^^^==============^^^^^^^============
+ * @ 类功能描述    | 
+ *    完成对业务代码的插桩
+ *    具体的实现使用责任模式实现
  *
- * @author wjy
+ *    当存在多个转换器时,转换将由 transform 调用链组成。也就是说,
+ *    一个 transform 调用返回的 byte 数组将成为下一个调用的输入(通过 classfileBuffer 参数)。
+ *    参数:
+ *         loader - 定义要转换的类加载器;如果是引导加载器,则为 null
+ *         className - 完全限定类内部形式的类名称和 The Java Virtual Machine Specification 中定义的接口名称。例如,"java/util/List"。
+ *         classBeingRedefined - 如果是被重定义或重转换触发,则为重定义或重转换的类;如果是类加载,则为 null
+ *         protectionDomain - 要定义或重定义的类的保护域
+ *         classfileBuffer - class文件输入字节缓冲区
+ *    返回:
+ *         一个格式良好的类文件缓冲区(转换的结果),如果未执行转换,则返回 null。
+ *    抛出:
+ *         IllegalClassFormatException
+ * ======================^^^^^^^==============^^^^^^^============
+ * @ 版本      |   ${1.0-SNAPSHOT}
+ * ======================^^^^^^^==============^^^^^^^============
  */
 public class BusinessClassInstrumentation implements ClassFileTransformer {
 
