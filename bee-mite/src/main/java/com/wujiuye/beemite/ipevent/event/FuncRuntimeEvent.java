@@ -72,10 +72,9 @@ public class FuncRuntimeEvent {
     ) {
         //System.out.println("=========处理事件[sendFuncStartRuntimeEvent]==============");
 
-        EventParam eventParam = new EventParam();
-        eventParam.setClassName(className);
-        eventParam.setFuncName(funcName);
-        eventParam.setStartTime(startTime);
+        EventParam eventParam = new EventParam.Build(className,funcName)
+                .setStartTime(startTime)
+                .build();
 
         Event event = new Event(sessionId, InsertPileManager.EventType.RUN_TIME_EVENT,
                 Type.Before.code, eventParam);
@@ -99,10 +98,9 @@ public class FuncRuntimeEvent {
     ) {
         //System.out.println("=========处理事件[sendFuncEndRuntimeEvent]==============");
 
-        EventParam eventParam = new EventParam();
-        eventParam.setClassName(className);
-        eventParam.setFuncName(funcName);
-        eventParam.setEndTime(endTime);
+        EventParam eventParam = new EventParam.Build(className,funcName)
+                .setEndTime(endTime)
+                .build();
 
         Event event = new Event(sessionId, InsertPileManager.EventType.RUN_TIME_EVENT,
                 Type.After.code, eventParam);

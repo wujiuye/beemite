@@ -71,10 +71,9 @@ public class BusinessCallLinkEvent {
 
         //System.out.println("=========处理事件[sendBusinessFuncCallEvent]==============");
 
-        EventParam eventParam = new EventParam();
-        eventParam.setClassName(className);
-        eventParam.setFuncName(funcName);
-        eventParam.setFuncAgrs(funcAgrs);
+        EventParam eventParam = new EventParam.Build(className,funcName)
+                .setFuncAgrs(funcAgrs)
+                .build();
 
         Event event = new Event(sessionId, InsertPileManager.EventType.CALL_LINK_EVENT,
                 Type.Before.code, eventParam);
@@ -97,10 +96,9 @@ public class BusinessCallLinkEvent {
     ) {
         //System.out.println("=========处理事件[sendBusinessFuncCallThrowableEvent]==============");
 
-        EventParam eventParam = new EventParam();
-        eventParam.setClassName(className);
-        eventParam.setFuncName(funcName);
-        eventParam.setThrowable(throwable);
+        EventParam eventParam = new EventParam.Build(className,funcName)
+                .setThrowable(throwable)
+                .build();
 
         Event event = new Event(sessionId, InsertPileManager.EventType.CALL_LINK_EVENT,
                 Type.ERROR.code, eventParam);
