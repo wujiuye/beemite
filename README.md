@@ -1,5 +1,5 @@
->微信公众号：**[code-skill](#jump_10)**
- 当前公众号名：**[全栈攻城狮之道](#jump_10)**
+>微信公众号：**[javaskill](#jump_10)**
+ 公众号名：**[Java艺术](#jump_10)**
 
 
 ###目录
@@ -35,7 +35,7 @@ javaagent+asm实现字节码插桩，在类加载之前对字节码进行修改�
 我在bee-mite模块的test包下写了两个测试类，其中UserServiceImpl就是插桩的目标，运行TestAop的main方法，会在项目的targer/classes目录下生成一个叫TargerProxy.class的文件，这个就是对UserServiceImpl插桩后的字节码文件。来看下对比，到底bee-mite都帮我们做了什么。
 
 ####【源代码】
-```
+```java
 package com.wujiuye.beemite.test;
 
 import java.util.HashMap;
@@ -54,7 +54,7 @@ public class UserServiceImpl {
 }
 ```
 ####【bee-mite插桩后】
-```
+```java
 //
 // Source code recreated from a .class file by IntelliJ IDEA
 // (powered by Fernflower decompiler)
@@ -117,12 +117,18 @@ public class UserServiceImpl {
 
    - 先执行maven package进行打包，获取jar包的绝对路径
    - 在测试的web项目下点击锤子->Edit Config....-> VM options ->输入下面内容
-   ``` -javaagent:/MyProjects/asm-aop/insert-pile/target/insert-pile-1.0-SNAPSHOT.jar=com.wujiuye ```
+   ``` 
+   -javaagent:/MyProjects/asm-aop/insert-pile/target/insert-pile-1.0-SNAPSHOT.jar=com.wujiuye 
+   ```
    等号后面是参数
   - 如果报如下异常：
-       ```java.lang.VerifyError: Expecting a stackmap frame at branch target 18```
+       ```
+       java.lang.VerifyError: Expecting a stackmap frame at branch target 18
+       ```
  jdk1.8可以添加参数：-noverify   最终：
-       ``` -noverify -javaagent:/MyProjects/asm-aop/insert-pile/target/insert-pile-1.0-SNAPSHOT.jar=com.wujiuye```
+       ``` 
+       -noverify -javaagent:/MyProjects/asm-aop/insert-pile/target/insert-pile-1.0-SNAPSHOT.jar=com.wujiuye
+       ```
  
    - spring项目中也能用，虽然spring会使用它生成的代理对象，但是最终也会调用原本的对象的方法
 
@@ -141,7 +147,7 @@ public class UserServiceImpl {
 - 需要同时添加-noverify参数，否则修改后的字节码没问题，但是会验证失败
 
 
->微信公众号：code_skill
+>微信公众号：Java艺术
  邮箱：419611821@qq.com
  作者：wujiuye
 
