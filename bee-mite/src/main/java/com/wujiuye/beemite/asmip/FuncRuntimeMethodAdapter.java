@@ -16,7 +16,7 @@
 package com.wujiuye.beemite.asmip;
 
 import com.wujiuye.beemite.ipevent.event.FuncRuntimeEvent;
-import com.wujiuye.beemite.utils.StringUtils;
+import com.wujiuye.beemite.util.StringUtils;
 import org.objectweb.asm.MethodAdapter;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
@@ -180,9 +180,6 @@ public class FuncRuntimeMethodAdapter extends MethodAdapter implements Opcodes {
         //  缺陷：
         //  1：当出现异常时就不会执行到埋点（获取方法执行结束时间）
         //
-        // 微信公众号：code_skill 当前名称为"全栈攻城狮之道"
-        // 邮箱：419611821@qq.com
-        // 作者：wujiuye
         //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
         if (i == RETURN || i == ARETURN || i == IRETURN || i == LRETURN || i == DRETURN) {
             //保存当前栈顶元素，这是要返回的值

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.wujiuye.beemite.logimpl;
+package com.wujiuye.beemite.logs;
 
 import com.wujiuye.beemite.logs.IFuncRuntimeLog;
 

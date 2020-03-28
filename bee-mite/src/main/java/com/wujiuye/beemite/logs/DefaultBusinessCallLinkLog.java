@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.wujiuye.beemite.test;
+package com.wujiuye.beemite.logs;
 
-import java.io.IOException;
-import java.util.Map;
+import com.wujiuye.beemite.logs.IBusinessCallLinkLog;
+
 
 /**
  * >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -33,23 +33,20 @@ import java.util.Map;
  * ======================^^^^^^^==============^^^^^^^============
  * @ 所属项目   |   BeeMite
  * ======================^^^^^^^==============^^^^^^^============
- * @ 类功能描述    | 测试字节码的插桩
+ * @ 类功能描述    |
  * ======================^^^^^^^==============^^^^^^^============
  * @ 版本      |   ${1.0-SNAPSHOT}
  * ======================^^^^^^^==============^^^^^^^============
  */
-public class TestAop {
+public class DefaultBusinessCallLinkLog implements IBusinessCallLinkLog {
 
-
-    public static void main(String[] agrs) throws IOException, ClassNotFoundException, InstantiationException, IllegalAccessException {
-        //取消注释，可查看生成的新的class文件,在target目录下
-//        Object object = AopManager.newClass(UserServiceImpl.class, InsertPileManager.EventType.RUN_TIME_EVENT);
-//        System.out.println(((UserServiceImpl) object).queryMap("wujiuye", 12));
-
-        UserServiceImpl userService = new UserServiceImpl();
-        Map<String,Object> map = userService.queryMap("wujiuye",18);
-        System.out.println(map.get("username"));
-
+    @Override
+    public void savaBusinessFuncCallLog(String sessionId, String className, String funcName, Object[] funcAgrs) {
+        System.out.println(String.format("[接收到事件，打印日记]savaBusinessFuncCallLog[%s,%s,%s]", sessionId, className, funcName));
     }
 
+    @Override
+    public void savaBusinessFuncCallErrorLog(String sessionId, String className, String funcName, Throwable throwable) {
+        System.out.println(String.format("[接收到事件，打印日记]savaBusinessFuncCallErrorLog[%s,%s,%s,%s]", sessionId, className, funcName, throwable.getMessage()));
+    }
 }

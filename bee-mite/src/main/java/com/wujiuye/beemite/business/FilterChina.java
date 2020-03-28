@@ -38,7 +38,7 @@ import java.util.List;
  * @ 版本      |   ${1.0-SNAPSHOT}
  * ======================^^^^^^^==============^^^^^^^============
  */
-public class FilterChina{
+public class FilterChina {
 
     //保存中间结果，确保线程安全
     static final ThreadLocal<byte[]> sThreadLocal = new ThreadLocal<>();
@@ -75,13 +75,17 @@ public class FilterChina{
                     loader,
                     className,
                     //如果上一个修改过了就将上一个修改的结果传给下一个
-                    classByte==null?classfileBuffer:classByte);
+                    classByte == null ? classfileBuffer : classByte);
             //某个过滤器要拦截请求就返回非null就行了
             if (result != null) {
                 return result;
             }
         } while (++index < transformerFilterList.size());
-        return sThreadLocal.get();
+        try {
+            return sThreadLocal.get();
+        } finally {
+            sThreadLocal.remove();
+        }
     }
 
 }

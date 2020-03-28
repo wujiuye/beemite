@@ -8,11 +8,11 @@
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
         <version>2.1.0.RELEASE</version>
-        <relativePath/> <!-- lookup parent from repository -->
+        <relativePath/>
     </parent>
 
     <modelVersion>4.0.0</modelVersion>
-    <artifactId>insert-pile-webdemo</artifactId>
+    <artifactId>bee-mite-webdemo</artifactId>
     <packaging>war</packaging>
 
     <properties>

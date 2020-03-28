@@ -16,7 +16,7 @@
 package com.wujiuye.beemite.asmip;
 
 import com.wujiuye.beemite.ipevent.event.BusinessCallLinkEvent;
-import com.wujiuye.beemite.utils.StringUtils;
+import com.wujiuye.beemite.util.StringUtils;
 import org.objectweb.asm.*;
 
 import java.util.List;
@@ -141,6 +141,7 @@ public class TryCatchMethodAdapter extends MethodAdapter implements Opcodes {
                             case 3:
                                 mv.visitInsn(ICONST_3);
                                 break;
+                            default:
                         }
                     }
                     mv.visitVarInsn(ALOAD, i + 1);//获取对应的参数

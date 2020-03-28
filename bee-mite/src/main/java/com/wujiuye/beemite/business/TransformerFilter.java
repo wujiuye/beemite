@@ -49,8 +49,6 @@ public interface TransformerFilter {
      * @param classfileBuffer
      * @return
      */
-    byte[] doTransformer(ClassLoader loader,
-                         String className,
-                         byte[] classfileBuffer);
+    byte[] doTransformer(ClassLoader loader, String className, byte[] classfileBuffer);
 
 }

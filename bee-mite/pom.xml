@@ -3,15 +3,15 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <parent>
-        <artifactId>BeeMite</artifactId>
+        <artifactId>beemite</artifactId>
         <groupId>com.wujiuye</groupId>
-        <version>1.0-SNAPSHOT</version>
+        <version>1.2.0-SNAPSHOT</version>
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
     <artifactId>bee-mite</artifactId>
     <packaging>jar</packaging>
-
+    <version>1.2.0</version>
 
     <dependencies>
         <dependency>
@@ -20,22 +20,43 @@
             <version>1.18.2</version>
             <scope>provided</scope>
         </dependency>
+        <dependency>
+            <groupId>asm</groupId>
+            <artifactId>asm-util</artifactId>
+            <version>3.3.1</version>
+        </dependency>
     </dependencies>
 
     <build>
         <plugins>
             <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-jar-plugin</artifactId>
-                <version>3.0.2</version>
+                <artifactId>maven-assembly-plugin</artifactId>
                 <configuration>
+                    <!-- 把依赖的jar包一起打包 -->
+                    <descriptorRefs>
+                        <descriptorRef>jar-with-dependencies</descriptorRef>
+                    </descriptorRefs>
                     <archive>
                         <!-- 注册premain的class -->
                         <manifestEntries>
                             <Premain-Class>com.wujiuye.beemite.BusinessClassInsertPileMain</Premain-Class>
+                            <Agent-Class>com.wujiuye.beemite.BusinessClassInsertPileMain</Agent-Class>
+                            <!-- 使用redefineClasses方式时，Caused by: java.lang.UnsupportedOperationException: redefineClasses is not supported in this environment  -->
+                            <Can-Redefine-Classes>true</Can-Redefine-Classes>
+                            <!-- Caused by: java.lang.UnsupportedOperationException: adding retransformable transformers is not supported in this environment -->
+                            <Can-Retransform-Classes>true</Can-Retransform-Classes>
                         </manifestEntries>
                     </archive>
                 </configuration>
+                <executions>
+                    <execution>
+                        <id>make-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>

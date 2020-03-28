@@ -16,10 +16,11 @@
 package com.wujiuye.beemite;
 
 import com.wujiuye.beemite.ipevent.InsertPileManager;
-import com.wujiuye.beemite.logimpl.DefaultBusinessCallLinkLog;
-import com.wujiuye.beemite.logimpl.DefaultFuncRuntimeLog;
+import com.wujiuye.beemite.logs.DefaultBusinessCallLinkLog;
+import com.wujiuye.beemite.logs.DefaultFuncRuntimeLog;
 
 import java.lang.instrument.Instrumentation;
+import java.lang.instrument.UnmodifiableClassException;
 
 /**
  * >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -36,24 +37,24 @@ import java.lang.instrument.Instrumentation;
  * ======================^^^^^^^==============^^^^^^^============
  * @ 所属项目   |   BeeMite
  * ======================^^^^^^^==============^^^^^^^============
- * @ 类功能描述    | 
- *     javaagent入口类
- *     像java程序执行入口一样需要定义public static void main方法
- *     javaagent也要有入口方法，定义一个public static void premain方法
- *    
- *     使用：
- *      先执行maven package进行打包，获取jar包的绝对路径
- *      不建议在当前项目测试
- *      在测试的web项目下点击锤子->Edit Config....-> VM options ->输入下面内容
- *          -javaagent:/MyProjects/asm-aop/insert-pile/target/insert-pile-1.0-SNAPSHOT.jar=com.wujiuye
- *      等号后面是参数
- *      如果报如下异常：
- *          java.lang.VerifyError: Expecting a stackmap frame at branch target 18
- *          jdk1.8可以添加参数：-noverify
- *          最终：
- *          -noverify -javaagent:/MyProjects/asm-aop/insert-pile/target/insert-pile-1.0-SNAPSHOT.jar=com.wujiuye
- *    
- *      spring项目中也能用，虽然spring会使用它生成的代理对象，但是最终也会调用原本的对象的方法
+ * @ 类功能描述    |
+ * javaagent入口类
+ * 像java程序执行入口一样需要定义public static void main方法
+ * javaagent也要有入口方法，定义一个public static void premain方法
+ * <p>
+ * 使用：
+ * 先执行maven package进行打包，获取jar包的绝对路径
+ * 不建议在当前项目测试
+ * 在测试的web项目下点击锤子->Edit Config....-> VM options ->输入下面内容
+ * -javaagent:/Users/wjy/MyProjects/beemite/bee-mite/target/bee-mite-1.2.0-jar-with-dependencies.jar=com.wujiuye
+ * 等号后面是参数
+ * 如果报如下异常：
+ * java.lang.VerifyError: Expecting a stackmap frame at branch target 18
+ * jdk1.8可以添加参数：-noverify
+ * 最终：
+ * -noverify -javaagent:/Users/wjy/MyProjects/beemite/bee-mite/target/bee-mite-1.2.0-jar-with-dependencies.jar=com.wujiuye
+ * <p>
+ * spring项目中也能用，虽然spring会使用它生成的代理对象，但是最终也会调用原本的对象的方法
  * ======================^^^^^^^==============^^^^^^^============
  * @ 版本      |   ${1.0-SNAPSHOT}
  * ======================^^^^^^^==============^^^^^^^============
@@ -62,11 +63,9 @@ public class BusinessClassInsertPileMain {
 
     //>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
     // 使用注意：
-    //      1.由于打jar包不会将依赖的asm的jar包也添加进去，所以在使用的项目中需要添加asm的依赖，也可以修改本项目的amven配置，
-    //      将asm的jar包打包进去。
-    //      2.我为了过滤掉get和set方法，所以方法名以get或者set方法开头的都不会进行插桩
-    //      3.进行插桩的方法的参数不能含有基本数据类型，如果需要请以Integer等类型
-    //      4.为了获取到sessionid，将事件串起来，所以此项目只适合用在web项目
+    //      1.我为了过滤掉get和set方法，所以方法名以get或者set方法开头的都不会进行插桩
+    //      2.进行插桩的方法的参数不能含有基本数据类型，如果需要请以Integer等类型
+    //      3.为了获取到sessionid，将事件串起来，所以此项目只适合用在web项目
     // 缺陷：
     //      1：因为要获取方法参数，而如果方法参数中有基本数据类型的参数，那么就会异常，所以方法参数只能是Object类型，即引用类型
     //      2: 需要同时添加-noverify参数，否则修改后的字节码没问题，但是会验证失败
@@ -80,15 +79,57 @@ public class BusinessClassInsertPileMain {
      * @param instrumentation
      */
     public static void premain(String agentOps, Instrumentation instrumentation) {
-        System.out.println("=========================== javaagent入口 ===========================");
+        System.out.println("=========================== javaagent入口(premain) ===========================");
         //设置事件日记处理实例
         InsertPileManager.getInstance().addBusinessCallLinkLog(new DefaultBusinessCallLinkLog());
         InsertPileManager.getInstance().addFuncRuntimeLog(new DefaultFuncRuntimeLog());
         //由参数agentOps控制要拦截的包名
         //只有是该包下的类或者是其子包下的类，都进行插桩
-        System.out.println("参数为："+agentOps);
+        System.out.println("参数为：" + agentOps);
         instrumentation.addTransformer(new BusinessClassInstrumentation(agentOps));
         System.out.println("=========================== javaagent 入口执行完毕 ===========================");
+    }
+
+    /**
+     * java6新特性，main运行之后再修改字节码
+     * agent main方式无法向pre main方式那样在命令行指定代理jar，需要借助Attach Tools API，
+     * 将编写好的agent jar挂接到目标进程的jvm中执行。
+     *
+     * @param agentOps
+     * @param instrumentation
+     * @since 2020/03/28
+     */
+    public static void agentmain(String agentOps, Instrumentation instrumentation) {
+        System.out.println("=========================== javaagent入口(agentmain) ===========================");
+        System.out.println("revice ops : " + agentOps);
+        String[] ops = agentOps.split("`");
+        String[] plus = ops[1].split("\\+");
+        for (String plu : plus) {
+            switch (plu) {
+                case "log":
+                    InsertPileManager.getInstance().addBusinessCallLinkLog(new DefaultBusinessCallLinkLog());
+                    break;
+                case "runtime":
+                    InsertPileManager.getInstance().addFuncRuntimeLog(new DefaultFuncRuntimeLog());
+                    break;
+                default:
+            }
+        }
+        instrumentation.addTransformer(new BusinessClassInstrumentation(ops[0]));
+        Class<?>[] classs = instrumentation.getAllLoadedClasses();
+        for (Class<?> cla : classs) {
+            if (cla.getName().startsWith("com.wujiuye.beemite")) {
+                continue;
+            }
+            if (cla.getName().startsWith(ops[0])) {
+                try {
+                    instrumentation.retransformClasses(cla);
+                } catch (UnmodifiableClassException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        System.out.println("=========================== javaagent入口执行完毕(agentmain) ===========================");
     }
 
 }

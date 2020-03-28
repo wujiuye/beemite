@@ -123,8 +123,9 @@ public final class InsertPileManager implements Runnable {
     @Override
     public void run() {
         for (; ; ) {
-            if (eventQueue.peek() == null)
+            if (eventQueue.peek() == null) {
                 break;
+            }
             Event event = eventQueue.poll();
             switch (event.getEventType()) {
                 case EventType.CALL_LINK_EVENT:
@@ -133,6 +134,7 @@ public final class InsertPileManager implements Runnable {
                 case EventType.RUN_TIME_EVENT:
                     handleFuncRuntimeEvent(event);
                     break;
+                default:
             }
         }
     }
