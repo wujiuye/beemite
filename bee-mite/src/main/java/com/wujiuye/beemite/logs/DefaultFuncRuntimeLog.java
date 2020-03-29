@@ -49,4 +49,5 @@ public class DefaultFuncRuntimeLog implements IFuncRuntimeLog {
     public void savaFuncEndRuntimeLog(String sessionId, String className, String funcName, long endTime) {
         System.out.println(String.format("[接收到事件，打印日记]savaFuncEndRuntimeLog[%s,%s,%s,%d]",sessionId,className,funcName,endTime));
     }
+
 }

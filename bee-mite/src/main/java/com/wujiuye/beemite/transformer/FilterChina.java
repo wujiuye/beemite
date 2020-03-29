@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.wujiuye.beemite.business;
+package com.wujiuye.beemite.transformer;
 
-import com.wujiuye.beemite.asmip.AopManager;
-import com.wujiuye.beemite.ipevent.InsertPileManager;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -38,13 +38,44 @@ import com.wujiuye.beemite.ipevent.InsertPileManager;
  * @ 版本      |   ${1.0-SNAPSHOT}
  * ======================^^^^^^^==============^^^^^^^============
  */
-public class BusinessCallLinkTransformerFilter implements TransformerFilter {
-    @Override
-    public byte[] doTransformer(ClassLoader loader, String className, byte[] classfileBuffer) {
-        //System.out.println("BusinessCallLinkTransformerFilter====>doTransformer方法,eventType is : "+InsertPileManager.EventType.CALL_LINK_EVENT);
-        byte[] result =  AopManager.newClass(classfileBuffer, InsertPileManager.EventType.CALL_LINK_EVENT);
-        FilterChina.sThreadLocal.set(result);
-        //System.out.println("返回null，不拦截");
-        return null;
+public class FilterChina {
+
+    private List<ClassTransformer> transformerFilterList;
+
+    public FilterChina() {
+        transformerFilterList = new ArrayList<>();
     }
+
+    /**
+     * 添加过滤器
+     *
+     * @param transformerFilter
+     */
+    public void addTransformerFilter(ClassTransformer transformerFilter) {
+        this.transformerFilterList.add(transformerFilter);
+    }
+
+    /**
+     * 责任连调用
+     *
+     * @param loader
+     * @param className
+     * @param classfileBuffer
+     * @return
+     */
+    public byte[] doFilter(ClassLoader loader, String className, byte[] classfileBuffer) {
+        try {
+            byte[] classByte = classfileBuffer;
+            for (ClassTransformer filter : this.transformerFilterList) {
+                classByte = filter.doTransformer(loader, className,
+                        // 如果上一个修改过了就将上一个修改的结果传给下一个
+                        classByte);
+            }
+            return classByte;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return classfileBuffer;
+        }
+    }
+
 }

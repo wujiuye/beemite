@@ -13,13 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.wujiuye.beemite.ipevent;
+package com.wujiuye.beemite.transformer;
 
-
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import com.wujiuye.beemite.core.AopManager;
+import com.wujiuye.beemite.event.InsertPileManager;
 
 /**
  * >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -41,14 +38,11 @@ import lombok.ToString;
  * @ 版本      |   ${1.0-SNAPSHOT}
  * ======================^^^^^^^==============^^^^^^^============
  */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-@ToString
-public class Event {
+public class BusinessCallLinkClassTransformer implements ClassTransformer {
 
-    private String sessionId;
-    private int eventType;//事件类型
-    private int type;//对于调用链事件，这是前置通知和异常通知，对于方法运行事件统计，这是前置通知和后置通知
-    private EventParam eventParam;
+    @Override
+    public byte[] doTransformer(ClassLoader loader, String className, byte[] classfileBuffer) {
+        return AopManager.newClass(classfileBuffer, InsertPileManager.EventType.CALL_LINK_EVENT);
+    }
+
 }

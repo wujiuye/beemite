@@ -13,11 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.wujiuye.beemite.ipevent.event;
+package com.wujiuye.beemite.event;
 
-import com.wujiuye.beemite.ipevent.Event;
-import com.wujiuye.beemite.ipevent.EventParam;
-import com.wujiuye.beemite.ipevent.InsertPileManager;
 import lombok.Getter;
 
 /**
@@ -70,11 +67,10 @@ public class BusinessCallLinkEvent {
         }
     }
 
-
     /**
      * 保存业务代码方法调用日记
      */
-    public void sendBusinessFuncCallEvent(
+    public static void sendBusinessFuncCallEvent(
             //通过sessionId最终将一次处理一次请求的调用链串起来
             String sessionId,
             //当前执行的方法的类名
@@ -84,10 +80,9 @@ public class BusinessCallLinkEvent {
             //当前执行的方法的参数
             Object[] funcAgrs) {
 
-        //System.out.println("=========处理事件[sendBusinessFuncCallEvent]==============");
-
         EventParam eventParam = new EventParam.Build(className,funcName)
                 .setFuncAgrs(funcAgrs)
+                .setSessionId(sessionId)
                 .build();
 
         Event event = new Event(sessionId, InsertPileManager.EventType.CALL_LINK_EVENT,
@@ -99,7 +94,7 @@ public class BusinessCallLinkEvent {
     /**
      * 保存方法执行抛出的异常信息
      */
-    public void sendBusinessFuncCallThrowableEvent(
+    public static void sendBusinessFuncCallThrowableEvent(
             //通过sessionId最终将一次处理一次请求的调用链串起来
             String sessionId,
             //类名
@@ -109,10 +104,9 @@ public class BusinessCallLinkEvent {
             //当前方法抛出的异常
             Throwable throwable
     ) {
-        //System.out.println("=========处理事件[sendBusinessFuncCallThrowableEvent]==============");
-
         EventParam eventParam = new EventParam.Build(className,funcName)
                 .setThrowable(throwable)
+                .setSessionId(sessionId)
                 .build();
 
         Event event = new Event(sessionId, InsertPileManager.EventType.CALL_LINK_EVENT,

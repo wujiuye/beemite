@@ -13,11 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.wujiuye.beemite.ipevent.event;
+package com.wujiuye.beemite.event;
 
-import com.wujiuye.beemite.ipevent.Event;
-import com.wujiuye.beemite.ipevent.EventParam;
-import com.wujiuye.beemite.ipevent.InsertPileManager;
 import lombok.Getter;
 
 /**
@@ -79,14 +76,12 @@ public class FuncRuntimeEvent {
      * @param funcName  方法名
      * @param startTime 开始执行时间戳
      */
-    public void sendFuncStartRuntimeEvent(
+    public static void sendFuncStartRuntimeEvent(
             String sessionId,
             String className,
             String funcName,
             long startTime
     ) {
-        //System.out.println("=========处理事件[sendFuncStartRuntimeEvent]==============");
-
         EventParam eventParam = new EventParam.Build(className,funcName)
                 .setStartTime(startTime)
                 .build();
@@ -105,14 +100,12 @@ public class FuncRuntimeEvent {
      * @param funcName  方法名
      * @param endTime   执行结束时间戳
      */
-    public void sendFuncEndRuntimeEvent(
+    public static void sendFuncEndRuntimeEvent(
             String sessionId,
             String className,
             String funcName,
             long endTime
     ) {
-        //System.out.println("=========处理事件[sendFuncEndRuntimeEvent]==============");
-
         EventParam eventParam = new EventParam.Build(className,funcName)
                 .setEndTime(endTime)
                 .build();

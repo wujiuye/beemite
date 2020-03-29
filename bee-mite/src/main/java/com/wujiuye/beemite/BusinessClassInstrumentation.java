@@ -15,12 +15,14 @@
  */
 package com.wujiuye.beemite;
 
-import com.wujiuye.beemite.business.BusinessCallLinkTransformerFilter;
-import com.wujiuye.beemite.business.FilterChina;
-import com.wujiuye.beemite.business.FuncRunTimeTransformerFilter;
+import com.wujiuye.beemite.transformer.BusinessCallLinkClassTransformer;
+import com.wujiuye.beemite.transformer.FilterChina;
+import com.wujiuye.beemite.transformer.FuncRunTimeClassTransformer;
+import com.wujiuye.beemite.util.ClassSearchUtils;
 
 import java.lang.instrument.ClassFileTransformer;
 import java.lang.instrument.IllegalClassFormatException;
+import java.lang.reflect.Method;
 import java.security.ProtectionDomain;
 
 /**
@@ -60,11 +62,20 @@ import java.security.ProtectionDomain;
  */
 public class BusinessClassInstrumentation implements ClassFileTransformer {
 
-
     private String basePackage;
+    /**
+     * 链式调用,责任分清楚
+     */
+    private FilterChina filterChina = new FilterChina();
+
+    public BusinessClassInstrumentation() {
+        this(null);
+    }
 
     public BusinessClassInstrumentation(String basePackage) {
         this.basePackage = basePackage;
+        filterChina.addTransformerFilter(new BusinessCallLinkClassTransformer());
+        filterChina.addTransformerFilter(new FuncRunTimeClassTransformer());
     }
 
     /**
@@ -84,11 +95,21 @@ public class BusinessClassInstrumentation implements ClassFileTransformer {
         if (basePackage != null && !className.replace("/", ".").startsWith(basePackage)) {
             return null;
         }
-        System.out.println("BusinessClassInstrumentation::执行transform方法，className===>" + className);
-        // 链式调用,责任分清楚
-        FilterChina filterChina = new FilterChina();
-        filterChina.addTransformerFilter(new BusinessCallLinkTransformerFilter());
-        filterChina.addTransformerFilter(new FuncRunTimeTransformerFilter());
+        if (basePackage == null && !ClassSearchUtils.match(className)) {
+            return null;
+        }
+        // 过滤接口
+        if (classBeingRedefined.isInterface()) {
+            return null;
+        }
+        // 过滤main方法的类
+        Method[] methods = classBeingRedefined.getMethods();
+        for (Method method : methods) {
+            if ("main".equalsIgnoreCase(method.getName())) {
+                return null;
+            }
+        }
+        System.out.println("执行transform方法，className: " + className);
         return filterChina.doFilter(loader, className, classfileBuffer);
     }
 

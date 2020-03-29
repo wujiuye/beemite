@@ -15,7 +15,7 @@
  */
 package com.wujiuye.beemite;
 
-import com.wujiuye.beemite.ipevent.InsertPileManager;
+import com.wujiuye.beemite.event.InsertPileManager;
 import com.wujiuye.beemite.logs.DefaultBusinessCallLinkLog;
 import com.wujiuye.beemite.logs.DefaultFuncRuntimeLog;
 
@@ -80,11 +80,11 @@ public class BusinessClassInsertPileMain {
      */
     public static void premain(String agentOps, Instrumentation instrumentation) {
         System.out.println("=========================== javaagent入口(premain) ===========================");
-        //设置事件日记处理实例
+        // 设置事件日记处理实例
         InsertPileManager.getInstance().addBusinessCallLinkLog(new DefaultBusinessCallLinkLog());
         InsertPileManager.getInstance().addFuncRuntimeLog(new DefaultFuncRuntimeLog());
-        //由参数agentOps控制要拦截的包名
-        //只有是该包下的类或者是其子包下的类，都进行插桩
+        // 由参数agentOps控制要拦截的包名
+        // 只有是该包下的类或者是其子包下的类，都进行插桩
         System.out.println("参数为：" + agentOps);
         instrumentation.addTransformer(new BusinessClassInstrumentation(agentOps));
         System.out.println("=========================== javaagent 入口执行完毕 ===========================");
@@ -115,19 +115,25 @@ public class BusinessClassInsertPileMain {
                 default:
             }
         }
-        instrumentation.addTransformer(new BusinessClassInstrumentation(ops[0]));
-        Class<?>[] classs = instrumentation.getAllLoadedClasses();
-        for (Class<?> cla : classs) {
-            if (cla.getName().startsWith("com.wujiuye.beemite")) {
-                continue;
-            }
-            if (cla.getName().startsWith(ops[0])) {
-                try {
-                    instrumentation.retransformClasses(cla);
-                } catch (UnmodifiableClassException e) {
-                    e.printStackTrace();
+        BusinessClassInstrumentation businessClassInstrumentation = new BusinessClassInstrumentation(ops[0]);
+        try {
+            instrumentation.addTransformer(businessClassInstrumentation, true);
+            Class<?>[] classs = instrumentation.getAllLoadedClasses();
+            for (Class<?> cla : classs) {
+                if (cla.getName().startsWith("com.wujiuye.beemite")) {
+                    continue;
+                }
+                if (cla.getName().startsWith(ops[0])) {
+                    try {
+                        // attempted to change the schema (add/remove fields) ===> 不允许添加或移除字段
+                        instrumentation.retransformClasses(cla);
+                    } catch (UnmodifiableClassException e) {
+                        e.printStackTrace();
+                    }
                 }
             }
+        } finally {
+            instrumentation.removeTransformer(businessClassInstrumentation);
         }
         System.out.println("=========================== javaagent入口执行完毕(agentmain) ===========================");
     }

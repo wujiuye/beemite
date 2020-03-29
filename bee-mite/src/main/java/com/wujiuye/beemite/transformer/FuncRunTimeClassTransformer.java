@@ -13,10 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.wujiuye.beemite.business;
+package com.wujiuye.beemite.transformer;
 
-import com.wujiuye.beemite.asmip.AopManager;
-import com.wujiuye.beemite.ipevent.InsertPileManager;
+import com.wujiuye.beemite.core.AopManager;
+import com.wujiuye.beemite.event.InsertPileManager;
 
 /**
  * >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -34,20 +34,17 @@ import com.wujiuye.beemite.ipevent.InsertPileManager;
  * @ 所属项目   |   BeeMite
  * ======================^^^^^^^==============^^^^^^^============
  * @ 类功能描述    |
- *  方法执行耗时统计
- *  ----> 功能：在方法执行之前插座，在方法执行完成之后统计耗时
+ * 方法执行耗时统计
+ * ----> 功能：在方法执行之前插座，在方法执行完成之后统计耗时
  * ======================^^^^^^^==============^^^^^^^============
  * @ 版本      |   ${1.0-SNAPSHOT}
  * ======================^^^^^^^==============^^^^^^^============
  */
-public class FuncRunTimeTransformerFilter implements TransformerFilter {
+public class FuncRunTimeClassTransformer implements ClassTransformer {
 
     @Override
     public byte[] doTransformer(ClassLoader loader, String className, byte[] classfileBuffer) {
-        //System.out.println("FuncRunTimeTransformerFilter====>doTransformer方法");
-        byte[] result =  AopManager.newClass(classfileBuffer, InsertPileManager.EventType.RUN_TIME_EVENT);
-        FilterChina.sThreadLocal.set(result);
-        //System.out.println("返回null，不拦截");
-        return null;
+        return AopManager.newClass(classfileBuffer, InsertPileManager.EventType.RUN_TIME_EVENT);
     }
+
 }

@@ -13,8 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.wujiuye.beemite.business;
+package com.wujiuye.beemite.event;
 
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 /**
  * >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
@@ -32,23 +37,25 @@ package com.wujiuye.beemite.business;
  * @ 所属项目   |   BeeMite
  * ======================^^^^^^^==============^^^^^^^============
  * @ 类功能描述    |
- *
- *  实现链接调用
- *  -----> doTransformer方法如果需要拦截，不继续往下处理，那么可以直接将结果返回，否则返回null
- *  -----> mac下的idea：Show Diagrams 后选中这个接口 按command+option+b 可查看所有的实现类
  * ======================^^^^^^^==============^^^^^^^============
  * @ 版本      |   ${1.0-SNAPSHOT}
  * ======================^^^^^^^==============^^^^^^^============
  */
-public interface TransformerFilter {
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
+public class Event {
 
+    private String sessionId;
     /**
-     * 如果需要拦截，不继续往下处理，那么可以直接将结果返回，否则返回null
-     * @param loader
-     * @param className
-     * @param classfileBuffer
-     * @return
+     * 事件类型
      */
-    byte[] doTransformer(ClassLoader loader, String className, byte[] classfileBuffer);
+    private int eventType;
+    /**
+     * 对于调用链事件，这是前置通知和异常通知，对于方法运行事件统计，这是前置通知和后置通知
+     */
+    private int type;
+    private EventParam eventParam;
 
 }

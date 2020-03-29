@@ -62,8 +62,8 @@ public class UserServiceImpl {
 
 package com.wujiuye.beemite.test;
 
-import com.wujiuye.beemite.ipevent.event.BusinessCallLinkEvent;
-import com.wujiuye.beemite.ipevent.event.FuncRuntimeEvent;
+import com.wujiuye.beemite.event.BusinessCallLinkEvent;
+import com.wujiuye.beemite.event.FuncRuntimeEvent;
 import java.util.HashMap;
 import java.util.Map;
 

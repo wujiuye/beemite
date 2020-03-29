@@ -49,4 +49,5 @@ public class DefaultBusinessCallLinkLog implements IBusinessCallLinkLog {
     public void savaBusinessFuncCallErrorLog(String sessionId, String className, String funcName, Throwable throwable) {
         System.out.println(String.format("[接收到事件，打印日记]savaBusinessFuncCallErrorLog[%s,%s,%s,%s]", sessionId, className, funcName, throwable.getMessage()));
     }
+
 }

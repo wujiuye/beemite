@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.wujiuye.beemite.asmip;
+package com.wujiuye.beemite.core;
 
 import org.objectweb.asm.ClassAdapter;
 import org.objectweb.asm.ClassReader;
@@ -22,6 +22,7 @@ import org.objectweb.asm.ClassWriter;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.util.Objects;
 
 
 /**
@@ -58,8 +59,6 @@ public final class AopManager {
      * @throws ClassNotFoundException
      */
     public static byte[] newClass(byte[] oldClass, int event) {
-        System.out.println("==============asm开始对字节码插桩==============");
-
         /**
          * COMPUTE_FRAMES：从头开始自动计算方法的堆栈映射帧。
          * COMPUTE_MAXS：  自动计算方法的最大堆栈大小和最大本地变量数量。
@@ -72,14 +71,14 @@ public final class AopManager {
         classReader.accept(aopClassAdapter, ClassReader.SKIP_DEBUG);
         byte[] newClassData = classWriter.toByteArray();
 
-        //保存一份临时字节码，用于排查错误
+        // 保存一份临时字节码，用于排查错误
         try {
-            String fileName = Thread.currentThread().getContextClassLoader().getResource("").getPath()
+            String fileName = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("")).getPath()
                     + "TargerProxy".replace(".", "/")
                     + "-" + System.currentTimeMillis() + ".class";
             System.out.println("代理类输出到文件 ===> " + fileName);
             File file = new File(fileName);
-            //将新的类字节码保存到文件,替换旧的
+            // 将新的类字节码保存到文件,替换旧的
             FileOutputStream fout = new FileOutputStream(file);
             fout.write(newClassData);
             fout.close();
@@ -100,9 +99,8 @@ public final class AopManager {
      * @throws InstantiationException
      * @throws ClassNotFoundException
      */
-    public static Object newClass(Class oldClass, int event) throws IOException, IllegalAccessException, InstantiationException, ClassNotFoundException {
-
-        String fileName = Thread.currentThread().getContextClassLoader().getResource("").getPath()
+    public static Object newClass(Class<?> oldClass, int event) throws IOException, IllegalAccessException, InstantiationException, ClassNotFoundException {
+        String fileName = Objects.requireNonNull(Thread.currentThread().getContextClassLoader().getResource("")).getPath()
                 + oldClass.getName().replace(".", "/")
                 + "-" + System.currentTimeMillis() + ".class";
         System.out.println("代理类输出到文件 ===> " + fileName);
@@ -115,13 +113,13 @@ public final class AopManager {
         classReader.accept(classAdapter, ClassReader.SKIP_DEBUG);
         byte[] data = classWriter.toByteArray();
 
-        //将新的类字节码保存到文件,替换旧的
+        // 将新的类字节码保存到文件,替换旧的
         FileOutputStream fout = new FileOutputStream(file);
         fout.write(data);
         fout.close();
 
-        //使用当前线程类加载器从刚生成的文件加载类
-        Class proxyClass = Thread.currentThread().getContextClassLoader().loadClass(oldClass.getName());
+        // 使用当前线程类加载器从刚生成的文件加载类
+        Class<?> proxyClass = Thread.currentThread().getContextClassLoader().loadClass(oldClass.getName());
         return proxyClass.newInstance();
     }
 
