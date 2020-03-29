@@ -1,156 +1,164 @@
->微信公众号：**[javaskill](#jump_10)**
- 公众号名：**[Java艺术](#jump_10)**
+# BeeMite
 
-### 目录
-
-[TOC]
-
-### 关于bee-mite
-
-javaagent+asm实现字节码插桩，在类加载之前对字节码进行修改，插入埋点。
-- 实现业务代码调用链插桩，在方法执行之前拦截获取类名、方法名，方法调用的参数，在方法执行异常时，获取到异常信息；
-- 为统计方法执行时间插入埋点，在方法执行之前和返回之前获取系统时间。关键技术：javaagent、asm、责任链模式、线程池分派日记消息给监听器处理。 
+`javaagent`+`asm`+动态字节码插桩实现的业务代码调用链监控项目。
 
 * 旧版本：`master`分支
+在类加载之前改写字节码，插入埋点。
 * 新版本：`agentmain`分支
+使用`Attach API`，在`Java`程序运行期间改写字节码，重新加载类。但有个缺点，就是不能新增或移除字段。旧版本我是通过添加字段实现的，所以改的时候要改很多地方。
 
-#### asmip包
+该项目编写于`2018`年年底，当时已经实现的功能有：
+* 业务代码调用链插桩，在方法执行之前拦截获取类名、方法名，方法调用的参数，在方法执行异常时，获取到异常信息；
+* 为统计方法执行时间插入埋点，在方法执行之前和返回之前获取系统时间。
 
-实现字节码插桩，在类加载之前对字节码进行修改，插入埋点。目前已经实现了业务代码调用链插桩，在方法执行之前拦截获取类名、方法名，方法调用的参数，在方法执行异常时，获取到异常信息。还实现了方法执行时间的埋点，在方法执行之前获取系统时间，发送一个日记事件，在方法执行结束之后获取系统时间，发送一个事件。
+### 使用方法
 
-#### business包
+#### 旧版本
 
-代码插桩过滤器，使用责任连模式，对字节码进行多次插桩。
-#### ipevent包
+1、将`bee-mite`模块执行`maven package`进行打包，获取`jar`包的绝对路径。
 
-事件的封装，埋点代码抛出事件给线程池，线程池分派事件给监听器进行处理。
-#### logs包
+2、以项目中提供的`demo`为例，在`IDEA`中，在`bee-mite-webdemo`项目下，点击锤子->`Edit Config....`-> `VM options` ->输入下面内容
+``` 
+-javaagent:/MyProjects/asm-aop/insert-pile/target/bee-mite-1.2.0-jar-with-dependencies.jar=com.wujiuye 
+```
+等号后面是参数，意思是改写哪个包下的类。
 
-提供事件监听器接口，具体实现交由使用者实现，我这里提供了两个默认的实现类，在logimpl包下，默认的实现类只是将日记打印，在控制台打印日记信息。
+如果报如下异常：
+```
+java.lang.VerifyError: Expecting a stackmap frame at branch target 18
+```
+jdk1.8可以添加参数：`-noverify`解决
+``` 
+-noverify -javaagent:/MyProjects/asm-aop/insert-pile/target/insert-pile-1.0-SNAPSHOT.jar=com.wujiuye
+```
 
-### 用到的技术
+#### 新版本
 
-这是用到了asm、javaagent、责任连模式。因为字节码是插入到业务代码中的，当执行业务代码的时候会执行埋点代码，如果处理程序也在业务代码中进行那么这将是个耗时的操作，影响性能，拖慢一次请求的响应速度，所以当埋点代码执行的时候，我是直接抛出一个消息事件，让线程池分派消息给监听器处理事件，这样就可以执行耗时操作，比如将日记存储到数据库进行持久化，也可以使用redis存储，便于后期进行项目代码异常排查。
+1、先将`bee-mite`模块执行`maven package`进行打包。\
+2、将`bee-mite-boot`模块打包，或者直接在`idea`中启动，这个模块只有一个类，就是`BeemiteBoot`，它的作用就是查询系统当前有哪些`java`进程，获取到进程的`id`，然后根据进程`id`，将上一步编译的`bee-mite`的`jar`包加载到目标进程。
 
-### bee-mite做了什么
+需要告诉`BeemiteBoot`，`bee-mite`的`jar`包放在哪里，就是`bee-mite`的`jar`包的绝对路径。目前我是写死在代码中的，可以通过修改代码替换。
 
-我在bee-mite模块的test包下写了两个测试类，其中UserServiceImpl就是插桩的目标，运行TestAop的main方法，会在项目的targer/classes目录下生成一个叫TargerProxy.class的文件，这个就是对UserServiceImpl插桩后的字节码文件。来看下对比，到底bee-mite都帮我们做了什么。
+```text
+    try {
+        vm.loadAgent("/Users/wjy/MyProjects/beemite/bee-mite/target/bee-mite-1.2.0-jar-with-dependencies.jar", pageckName + "`" + plus);
+    } finally {
+        vm.detach();
+    }
+```
 
-#### 【源代码】
+3、`BeemiteBoot`启动起来之后，就可以根据提示一步步操作了。
+
+```
+找到如下Java进程，请选择：
+[1] 2352	
+[2] 3818	com.wujiuye.ipweb.DemoAppcliction
+[3] 3595	org.jetbrains.idea.maven.server.RemoteMavenServer36
+[4] 3821	org.jetbrains.jps.cmdline.Launcher
+```
+
+选择对应进程之后，会提示输入目标进程的应用包名，目的是过滤只改写指定包名下的类。
+```text
+应用的包名：
+com.wujiuye
+```
+
+输入包名后会提示选择插件，目前就两个插件，一个是监控调用链的，另一个是打印方法执行耗时的，多可选。
+```text
+选择插件：
+1	打印调用链路插件
+2	打印方法执行耗时插件
+结束请输入：0
+```
+完成后，就已经成功将`bee-mite`的`jar`包加载到目标进程了。
+
+#### 结果展示
+
+`bee-mite-boot`是一个`web`项目，在浏览器中输入`http://127.0.0.1:8080/user/wujiuye/25`，即可看到插桩后输出的日记
+
+```text
+[接收到事件，打印日记]savaFuncStartRuntimeLog[null,com/wujiuye/ipweb/handler/UserHandler,queryUser,1585486646788]
+[接收到事件，打印日记]savaBusinessFuncCallLog[null,com/wujiuye/ipweb/handler/UserHandler,queryUser]
+[接收到事件，打印日记]savaFuncStartRuntimeLog[null,com/wujiuye/ipweb/service/impl/UserServiceImpl,queryUser,1585486646790]
+[接收到事件，打印日记]savaBusinessFuncCallLog[null,com/wujiuye/ipweb/service/impl/UserServiceImpl,queryUser]
+[接收到事件，打印日记]savaFuncEndRuntimeLog[null,com/wujiuye/ipweb/service/impl/UserServiceImpl,queryUser,1585486646791]
+[接收到事件，打印日记]savaFuncEndRuntimeLog[null,com/wujiuye/ipweb/handler/UserHandler,queryUser,1585486646791]
+```
+
+### 源码导读【agentmain分支】
+
+`core`包：实现字节码插桩，在方法执行之前拦截获取类名、方法名，方法调用的参数，在方法执行异常时，获取到异常信息，以及在方法执行之前和`return`之前获取当前系统时间，可用于统计方法执行耗时。
+
+`tracsformer`包：代码插桩过滤器，使用责任连模式，对字节码进行多次插桩，每个插桩器只负责自己想要实现的逻辑。
+
+`event`包：事件的封装，埋点代码抛出的事件放入事件队列，异步分派事件给监听器进行处理。
+
+`logs`包：提供事件监听器接口，具体实现可扩展，我这里提供了两个默认的实现类，默认的实现类只是将日记打印，在控制台打印日记信息。
+
+因为字节码是插入到业务代码中的，当执行业务代码的时候会执行埋点代码，如果处理程序也在业务代码中进行，那么这将是个耗时的操作，影响性能，拖慢一次请求的响应速度，所以当埋点代码执行的时候，我是直接抛出一个事件，让线程池异步消费事件，分派事件给相应的监听器处理，这样就可以执行耗时操作，比如将日记输出到硬盘，再存储到`ES`，便于后期进行项目代码异常排查。
+
+### bee-mite是怎么改写class的
+
+我在`bee-mite`模块中将改写后的`class`字节码输出到文件了，会在控制台打印输出的文件路径，可以看下输出后的`class`。
+
+以`UserServiceImpl`为例，这个类是插桩的目标，来看下对比改写后的代码，到底`bee-mite`改写字节码都做了什么。
+
+源代码
+
 ```java
-package com.wujiuye.beemite.test;
-
-import java.util.HashMap;
-import java.util.Map;
-
 public class UserServiceImpl {
 
     public Map<String, Object> queryMap(String username,Integer age) {
         Map<String, Object> map = new HashMap<>();
         map.put("username", username);
         map.put("age", age);
-//        int n = 1/0;
         return map;
     }
 
 }
 ```
-#### 【bee-mite插桩后】
+
+`bee-mite`插桩后
+
 ```java
-//
-// Source code recreated from a .class file by IntelliJ IDEA
-// (powered by Fernflower decompiler)
-//
-
-package com.wujiuye.beemite.test;
-
-import com.wujiuye.beemite.event.BusinessCallLinkEvent;
-import com.wujiuye.beemite.event.FuncRuntimeEvent;
-import java.util.HashMap;
-import java.util.Map;
-
-public class UserServiceImpl {
-    private BusinessCallLinkEvent eventObject1;
-    private FuncRuntimeEvent eventObject2;
-
+@Service
+public class UserServiceImpl implements UserService {
     public UserServiceImpl() {
     }
 
-    public Map<String, Object> queryMap(String var1, Integer var2) {
-        if (this.eventObject2 == null) {
-            this.eventObject2 = new FuncRuntimeEvent();
-        }
-
+    public Map<String, Object> queryUser(String var1, Integer var2) {
         long var3 = System.currentTimeMillis();
-        this.eventObject2.sendFuncStartRuntimeEvent("sessionid is null", "com/wujiuye/beemite/test/UserServiceImpl", "queryMap", var3);
-        if (this.eventObject1 == null) {
-            this.eventObject1 = new BusinessCallLinkEvent();
-        }
-
+        FuncRuntimeEvent.sendFuncStartRuntimeEvent(SessionIdContext.getContext().getSessionId(), "com/wujiuye/ipweb/service/impl/UserServiceImpl", "queryUser", var3);
         try {
             Object[] var8 = new Object[]{var1, var2};
-            this.eventObject1.sendBusinessFuncCallEvent("sessionid is null", "com/wujiuye/beemite/test/UserServiceImpl", "queryMap", var8);
+            BusinessCallLinkEvent.sendBusinessFuncCallEvent(SessionIdContext.getContext().getSessionId(), "com/wujiuye/ipweb/service/impl/UserServiceImpl", "queryUser", var8);
             HashMap var9 = new HashMap();
             var9.put("username", var1);
             var9.put("age", var2);
             long var5 = System.currentTimeMillis();
-            this.eventObject2.sendFuncEndRuntimeEvent("sessionid is null", "com/wujiuye/beemite/test/UserServiceImpl", "queryMap", var5);
+            FuncRuntimeEvent.sendFuncEndRuntimeEvent(SessionIdContext.getContext().getSessionId(), "com/wujiuye/ipweb/service/impl/UserServiceImpl", "queryUser", var5);
             return var9;
         } catch (Exception var7) {
-            this.eventObject1.sendBusinessFuncCallThrowableEvent("sessionid is null", "com/wujiuye/beemite/test/UserServiceImpl", "queryMap", var7);
+            BusinessCallLinkEvent.sendBusinessFuncCallThrowableEvent(SessionIdContext.getContext().getSessionId(), "com/wujiuye/ipweb/service/impl/UserServiceImpl", "queryUser", var7);
             throw var7;
         }
     }
 }
 ```
-#### 说明
 
-因为使用了责任链模式，会对代码进行两次插桩，目的就是为了后面容易扩展功能，相信看了对比你也能知道bee-mite都帮我们插入了哪些代码，这些代码都是通过asm写字节码指令插入的。当然也不是很难，要说难就是try-catch代码块的插入了，没有文档看还是好难摸索出来的，visitTryCatchBlock方法的三个label的位置，以及catch块处理异常算是个难点，我最终通过在源码类中添加try-catch块然后javap查看字节码发现异常处理表
+因为使用了责任链模式，会对代码进行两次插桩，目的就是为了后面容易扩展功能，其实只是`18`年时候自己的水平问题，没有想到通过暴露切点的方式实现更好，少写字节码。我简单看了下`arthas`的部分源码，它的实现就是改写的字节码只插入三个埋点，其它功能不再操作字节码。
+
+相信看了对比你也能知道`bee-mite`都插入了哪些代码，这些代码都是通过`asm`写字节码指令插入的。当然也不是很难，要说难就是`try-catch`代码块的插入了，没有文档看还是很难摸索出来的。
+`visitTryCatchBlock`方法的三个`label`的位置，以及`catch`块处理异常算是个难点，我最终通过在源码类中添加`try-catch`块，然后`javap`查看字节码的异常处理表。
 
 ```
  * Exception table:
  *        from    to  target type
  *            0    27    30   Class java/lang/Exception
 ```
-那么三个label对应的就是from、to、target了。当type为any的时候就只try-finally了。
 
+那么三个`label`对应的就是`from`、`to`、`target`了。当`type`为`any`的时候就是`try-finally`了。
 
-### 使用方法
+### END
 
-   - 先执行maven package进行打包，获取jar包的绝对路径
-   - 在测试的web项目下点击锤子->Edit Config....-> VM options ->输入下面内容
-   ``` 
-   -javaagent:/MyProjects/asm-aop/insert-pile/target/insert-pile-1.0-SNAPSHOT.jar=com.wujiuye 
-   ```
-   等号后面是参数
-  - 如果报如下异常：
-       ```
-       java.lang.VerifyError: Expecting a stackmap frame at branch target 18
-       ```
- jdk1.8可以添加参数：-noverify   最终：
-       ``` 
-       -noverify -javaagent:/MyProjects/asm-aop/insert-pile/target/insert-pile-1.0-SNAPSHOT.jar=com.wujiuye
-       ```
- 
-   - spring项目中也能用，虽然spring会使用它生成的代理对象，但是最终也会调用原本的对象的方法
-
-### 使用注意和当前存在的缺陷
-
-#### 使用注意
-
-- 由于打jar包不会将依赖的asm的jar包也添加进去，所以在使用的项目中需要添加asm的依赖，也可以修改本项目的amven配置，将asm的jar包打包进去。
-- 我为了过滤掉get和set方法，所以方法名以get或者set方法开头的都不会进行插桩
-- 进行桩的方法的参数不能含有基本数据类型，如果需要请以Integer等类型
-- 为了获取到sessionid，将事件串起来，所以此项目只适合用在web项目
-
-#### 存在的缺陷：
-
-- 因为要获取方法参数，而如果方法参数中有基本数据类型的参数，那么就会异常，所以方法参数只能是Object类型，即引用类型
-- 需要同时添加-noverify参数，否则修改后的字节码没问题，但是会验证失败
-
-
->微信公众号：Java艺术
- 邮箱：419611821@qq.com
- 作者：wujiuye
-
-
+欢迎大家下载这个开源项目的源码学习，但这个项目后续不再维护更新。
